@@ -60,7 +60,7 @@ class virus():
         # Infect Rate is how likely a person is to spread the virus
         # Morality Rate is how likely an infected person is to die as a result of the virus
         # Infection Period is how long before the virus "wears off" - 1 tick = 1 day
-        # Infect and Morality rate value between 0-10
+        # Infect and Morality rate value between 0-100
         # Infection Period has no limit, put 0 for virus that can't be cured
         self.infectRate = infectRate
         self.mortalityRate = mortalityRate
@@ -78,7 +78,7 @@ class virus():
         for c in self.infectedCities:
             for i in range(c.populationInfected):
                 if c.populationHealthy > 0:
-                    x = random.choice(range(11))
+                    x = random.choice(range(100))
                     if x <= self.infectRate:
                         c.populationInfected += 1
                         c.populationHealthy -= 1
@@ -90,7 +90,7 @@ class virus():
         for c in self.infectedCities:
             for i in range(c.populationInfected):
                 if c.populationTotal > 0:
-                    x = random.choice(range(11))
+                    x = random.choice(range(100))
                     if x <= self.mortalityRate and self.mortalityRate != 0:
                         c.populationInfected -= 1
                         c.populationTotal -= 1
@@ -106,7 +106,7 @@ class virus():
                 if c in self.infectedCities:
                     pass
                 else:
-                    x = random.choice(range(11))
+                    x = random.choice(range(100))
                     if x <= self.infectRate/2:
                         self.infectedCities.append(c)
                         c.infected = True
@@ -120,10 +120,10 @@ class virus():
         # Spread to other populations
         for p in populations:
             if p in self.infectedPopulations:
-                break
+                pass
             else:
-                x = random.choice(range(11))
-                if x == 0:
+                x = random.choice(range(100))
+                if x <= self.infectRate/3:
                     self.infectedPopulations.append(p)
                     p.populationInfected += 1
                     p.populationHealthy -= 1
@@ -162,7 +162,7 @@ populationD.name = "D"
 populationE = population(2,100,500)
 populationE.name = "E"
 
-TestVirus = virus(5,0,14)
+TestVirus = virus(100,0.5,0)
 
 hostPop = random.choice(populations)
 hostCity = random.choice(hostPop.cities)
